@@ -16,6 +16,10 @@
   <meta property="og:description" content="Softwareentwicklung, künstliche Intelligenz, Systemintegration und Automatisierung.">
   <meta property="og:url" content="https://yonesit.github.io/">
   <meta property="og:site_name" content="Yones Alizai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Yones Alizai | Informatiker &amp; Softwareentwickler">
+  <meta name="twitter:description" content="Softwareentwicklung, künstliche Intelligenz, Systemintegration und Automatisierung.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
   <style>
     :root {
@@ -35,6 +39,19 @@
     * {
       box-sizing: border-box;
     }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -4rem;
+      z-index: 20;
+      padding: 0.65rem 0.9rem;
+      border-radius: 0.5rem;
+      background: var(--text);
+      color: #fff;
+    }
+
+    .skip-link:focus { top: 1rem; }
 
     html {
       scroll-behavior: smooth;
@@ -192,6 +209,11 @@
     .button:hover,
     .button:focus-visible {
       transform: translateY(-1px);
+    }
+
+    :focus-visible {
+      outline: 3px solid #ffb000;
+      outline-offset: 3px;
     }
 
     section {
@@ -372,7 +394,8 @@
       "sameAs": [
         "https://github.com/yonesit",
         "https://www.linkedin.com/in/yones-alizai-8b3046333",
-        "https://www.youtube.com/@yones-alizai"
+        "https://www.youtube.com/@yones-alizai",
+        "https://dev.to/yonesit"
       ],
       "knowsAbout": [
         "Softwareentwicklung",
@@ -391,6 +414,7 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#start">Zum Hauptinhalt springen</a>
   <header class="site-header">
     <nav class="container nav" aria-label="Hauptnavigation">
       <a class="brand" href="#start">Yones Alizai</a>
@@ -418,6 +442,7 @@
             <a class="button" href="https://github.com/yonesit" rel="me">GitHub</a>
             <a class="button" href="https://www.linkedin.com/in/yones-alizai-8b3046333" rel="me">LinkedIn</a>
             <a class="button" href="https://www.youtube.com/@yones-alizai" rel="me">YouTube</a>
+            <a class="button" href="https://dev.to/yonesit" rel="me">DEV Community</a>
           </div>
         </div>
 
@@ -540,6 +565,14 @@
             </a>
           </div>
         </div>
+      </section>
+
+      <section id="veroeffentlichungen" aria-labelledby="publications-title">
+        <div class="section-heading">
+          <h2 id="publications-title">Artikel und Veröffentlichungen</h2>
+          <p>Technische Einblicke und weitere Beiträge veröffentliche ich in der DEV Community.</p>
+        </div>
+        <a class="button" href="https://dev.to/yonesit">DEV-Profil öffnen</a>
       </section>
     </div>
   </main>
