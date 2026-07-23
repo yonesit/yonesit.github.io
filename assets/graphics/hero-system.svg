@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 560" role="img" aria-labelledby="title desc">
+  <title id="title">Vernetzte Softwarearchitektur</title>
+  <desc id="desc">Abstrakte Darstellung verbundener Knoten, Datenströme und technischer Systeme.</desc>
+  <defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#5b8cff"/><stop offset="1" stop-color="#5de1e6"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="12"/></filter></defs>
+  <rect width="720" height="560" rx="28" fill="#0b192c"/>
+  <g opacity=".16" stroke="#9ab8e9"><path d="M0 100h720M0 200h720M0 300h720M0 400h720M120 0v560M240 0v560M360 0v560M480 0v560M600 0v560"/></g>
+  <circle cx="382" cy="278" r="102" fill="#5b8cff" opacity=".12" filter="url(#glow)"/>
+  <g fill="none" stroke="url(#g)" stroke-width="2"><path d="M118 142 270 228 382 160 520 232 620 120"/><path d="M118 142 180 390 382 440 520 232 620 420"/><path d="M270 228 382 440M382 160 382 440"/></g>
+  <g fill="#10243d" stroke="#5de1e6" stroke-width="2"><circle cx="118" cy="142" r="12"/><circle cx="270" cy="228" r="12"/><circle cx="382" cy="160" r="12"/><circle cx="520" cy="232" r="12"/><circle cx="620" cy="120" r="12"/><circle cx="180" cy="390" r="12"/><circle cx="382" cy="440" r="12"/><circle cx="620" cy="420" r="12"/></g>
+  <g fill="#a8b5c9" font-family="monospace" font-size="14"><text x="70" y="105">INPUT.DATA</text><text x="302" y="117">MODEL</text><text x="516" y="93">SYSTEM</text><text x="415" y="480">INTEGRATION</text><text x="86" y="438">AUTOMATION</text></g>
+  <path d="M90 510h540" stroke="#5b8cff" stroke-width="1" opacity=".5"/><text x="90" y="535" fill="#71819a" font-family="monospace" font-size="12">YONES_ALIZAI / SOFTWARE_SYSTEMS</text>
+</svg>

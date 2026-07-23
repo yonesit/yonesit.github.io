@@ -14,4 +14,8 @@
 - Keine Tracking-, Analyse-, Karten-, Social-Media- oder Video-Einbettungen ohne Datenschutzprüfung.
 - Externe Medien standardmäßig nur als normale Links bereitstellen; keine automatisch geladenen Drittanbieter-Inhalte.
 - Kein Cookie-Banner hinzufügen, solange keine einwilligungspflichtigen Dienste vorhanden sind.
+- Designänderungen dürfen SEO und Rechtstexte nicht beschädigen; Impressum und Datenschutz inhaltlich nicht eigenständig verändern.
+- Keine externen Fonts oder Bildquellen; Grafiken müssen selbst erstellt und lokal gespeichert werden.
+- Keine erfundenen Projektscreenshots, unbelegten Titel oder Erfolgskennzahlen.
+- Animationen müssen `prefers-reduced-motion` beachten.
 - Vor jedem Commit `python scripts/check_site.py` ausführen und interne Links, JSON-LD und XML prüfen.

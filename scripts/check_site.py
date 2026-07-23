@@ -30,6 +30,8 @@ class SiteParser(HTMLParser):
         self.canonical: list[str] = []
         self.robots = ""
         self.hrefs: list[str] = []
+        self.srcs: list[str] = []
+        self.images: list[tuple[str, str]] = []
         self.ids: list[str] = []
         self.jsonld: list[str] = []
         self._title_depth = 0
@@ -49,6 +51,10 @@ class SiteParser(HTMLParser):
             self.ids.append(data["id"] or "")
         if tag == "a" and "href" in data:
             self.hrefs.append(data["href"] or "")
+        if tag in {"img", "script", "link"} and data.get("src"):
+            self.srcs.append(data["src"] or "")
+        if tag == "img":
+            self.images.append((data.get("src", "") or "", data.get("alt", "") or ""))
         if tag == "link" and data.get("rel", "").lower() == "canonical":
             self.canonical.append(data.get("href", "") or "")
         if tag == "meta" and data.get("name", "").lower() == "description":
@@ -104,6 +110,13 @@ def check_html() -> None:
             target = local_target(href)
             if target and not target.exists():
                 fail(f"{path.name}: internes Ziel fehlt: {href}")
+        for src in parser.srcs:
+            target = local_target(src)
+            if target and not target.exists():
+                fail(f"{path.name}: lokales Asset fehlt: {src}")
+        for src, alt in parser.images:
+            if not alt.strip():
+                fail(f"{path.name}: Bild ohne alt-Text: {src}")
         for block in parser.jsonld:
             try:
                 json.loads(block)
@@ -137,8 +150,17 @@ def check_privacy_technology() -> None:
         if path.name == "google3c3f89b6a3da8de0.html":
             continue
         text = path.read_text(encoding="utf-8")
-        if re.search(r"<iframe\b|youtube(?:-nocookie)?\.com/embed|<script\s+[^>]*src=|fonts\.googleapis|googletagmanager|google-analytics|tracking[- ]?pixel", text, re.I):
+        if re.search(r"<iframe\b|youtube(?:-nocookie)?\.com/embed|<script\s+[^>]*src\s*=\s*['\"]https?://|fonts\.googleapis|googletagmanager|google-analytics|tracking[- ]?pixel", text, re.I):
             fail(f"{path.name}: automatisch geladener Drittanbieter-Inhalt oder Tracking-Technik")
+
+
+def check_assets() -> None:
+    for path in (ROOT / "assets").rglob("*.svg"):
+        text = path.read_text(encoding="utf-8")
+        if re.search(r"(?:url\s*\(\s*['\"]?https?:|(?:href|src)\s*=\s*['\"]https?:|<script|<iframe)", text, re.I):
+            fail(f"{path.relative_to(ROOT)}: externe Ressource oder eingebetteter Inhalt")
+        if "<title" not in text and "aria-label" not in text:
+            fail(f"{path.relative_to(ROOT)}: zugänglicher SVG-Titel fehlt")
 
 
 def check_sitemap() -> None:
@@ -194,6 +216,7 @@ def check_robots() -> None:
 check_html()
 check_legal_pages()
 check_privacy_technology()
+check_assets()
 check_sitemap()
 check_robots()
 check_text()
