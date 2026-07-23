@@ -12,6 +12,8 @@ Protocolbridge vor.
 - [QuantzAI](quantzai.html)
 - [Protocolbridge](protocolbridge.html)
 - [404-Seite](404.html)
+- [Impressum](impressum.html)
+- [Datenschutzerklärung](datenschutz.html)
 
 ## Lokale Vorschau
 
@@ -29,6 +31,11 @@ Die Website ist eine leichte statische HTML/CSS-Seite ohne Frameworks,
 Tracking-Skripte oder externe Webfonts. `assets/favicon.svg` enthält das
 selbst entwickelte Favicon. `sitemap.xml` und `robots.txt` steuern die
 technische Auffindbarkeit.
+
+Die Website enthält ein Impressum und eine Datenschutzerklärung. Externe
+Plattformen werden grundsätzlich über normale Links geöffnet; eigene
+Tracking- oder Analysedienste sind nicht integriert. Rechtliche Angaben dürfen
+nicht ohne ausdrückliche Freigabe verändert werden.
 
 ## Lokale Prüfung
 

@@ -7,4 +7,11 @@
 - Deutsche Inhalte sind primär auf Deutsch; Fachbegriffe dürfen Englisch bleiben.
 - `google3c3f89b6a3da8de0.html` und `BingSiteAuth.xml` niemals verändern oder löschen.
 - Keine CNAME-, Tracking-, Analytics- oder Cookie-Technik ohne ausdrückliche Anweisung.
+- Impressum und Datenschutzerklärung nicht ohne ausdrückliche Anweisung löschen.
+- Personenbezogene Anbieterangaben nicht eigenständig verändern.
+- Keine Platzhalter auf rechtlichen Seiten committen und keine Telefonnummer veröffentlichen.
+- Nur die ausdrücklich freigegebene öffentliche E-Mail-Adresse verwenden.
+- Keine Tracking-, Analyse-, Karten-, Social-Media- oder Video-Einbettungen ohne Datenschutzprüfung.
+- Externe Medien standardmäßig nur als normale Links bereitstellen; keine automatisch geladenen Drittanbieter-Inhalte.
+- Kein Cookie-Banner hinzufügen, solange keine einwilligungspflichtigen Dienste vorhanden sind.
 - Vor jedem Commit `python scripts/check_site.py` ausführen und interne Links, JSON-LD und XML prüfen.

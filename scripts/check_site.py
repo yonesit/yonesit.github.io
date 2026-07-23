@@ -11,6 +11,9 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE_ORIGIN = "https://yonesit.github.io"
+PUBLIC_EMAIL = "jonasitgnf@gmail.com"
+LEGAL_PAGES = {"impressum.html", "datenschutz.html"}
+PLACEHOLDER_PATTERNS = ("HIER EINSETZEN", "MUSTERSTRASSE", "MUSTERMANN", "example.com", "[ADRESSE]", "[E-MAIL]", "TODO", "FIXME")
 ERRORS: list[str] = []
 
 
@@ -108,6 +111,36 @@ def check_html() -> None:
                 fail(f"{path.name}: ungültiges JSON-LD: {exc}")
 
 
+def check_legal_pages() -> None:
+    for name in LEGAL_PAGES:
+        path = ROOT / name
+        if not path.exists():
+            fail(f"Rechtsseite fehlt: {name}")
+    for path in sorted(ROOT.glob("*.html")):
+        if path.name == "google3c3f89b6a3da8de0.html":
+            continue
+        text = path.read_text(encoding="utf-8")
+        if 'href="/impressum.html"' not in text or 'href="/datenschutz.html"' not in text:
+            fail(f"{path.name}: Impressum und Datenschutz müssen im Footer verlinkt sein")
+        if not text.strip():
+            fail(f"leere HTML-Datei: {path.name}")
+    imprint = (ROOT / "impressum.html").read_text(encoding="utf-8") if (ROOT / "impressum.html").exists() else ""
+    if not all(value in imprint for value in ("Yones Alizai", "Lambertistraße 1", "45964 Gladbeck", PUBLIC_EMAIL)):
+        fail("impressum.html: Anbieterangaben unvollständig")
+    privacy = (ROOT / "datenschutz.html").read_text(encoding="utf-8") if (ROOT / "datenschutz.html").exists() else ""
+    if "GitHub Pages" not in privacy or "Art. 6 Abs. 1 lit. f DSGVO" not in privacy:
+        fail("datenschutz.html: erforderliche Hosting- oder Rechtsgrundlage fehlt")
+
+
+def check_privacy_technology() -> None:
+    for path in sorted(ROOT.glob("*.html")):
+        if path.name == "google3c3f89b6a3da8de0.html":
+            continue
+        text = path.read_text(encoding="utf-8")
+        if re.search(r"<iframe\b|youtube(?:-nocookie)?\.com/embed|<script\s+[^>]*src=|fonts\.googleapis|googletagmanager|google-analytics|tracking[- ]?pixel", text, re.I):
+            fail(f"{path.name}: automatisch geladener Drittanbieter-Inhalt oder Tracking-Technik")
+
+
 def check_sitemap() -> None:
     path = ROOT / "sitemap.xml"
     try:
@@ -115,8 +148,13 @@ def check_sitemap() -> None:
     except (ET.ParseError, OSError) as exc:
         fail(f"sitemap.xml: ungültiges XML: {exc}")
         return
-    for loc in root.findall("{*}url/{*}loc"):
-        url = (loc.text or "").strip()
+    urls = {(loc.text or "").strip() for loc in root.findall("{*}url/{*}loc")}
+    for required in (SITE_ORIGIN + "/impressum.html", SITE_ORIGIN + "/datenschutz.html"):
+        if required not in urls:
+            fail(f"sitemap.xml: erforderliche Rechtsseite fehlt: {required.split('/')[-1]}")
+    if SITE_ORIGIN + "/404.html" in urls:
+        fail("sitemap.xml: 404.html darf nicht enthalten sein")
+    for url in urls:
         parsed = urlparse(url)
         if parsed.scheme != "https" or parsed.netloc != "yonesit.github.io":
             fail(f"sitemap.xml: URL gehört nicht zur Website: {url}")
@@ -138,6 +176,11 @@ def check_text() -> None:
             fail(f"mögliche Zugangsdaten in {path.relative_to(ROOT)}")
         if re.search(r"\b(?:\+49|0049)\s?\d[\d\s/-]{7,}\b", text):
             fail(f"mögliche Telefonnummer in {path.relative_to(ROOT)}")
+        if any(marker.lower() in text.lower() for marker in PLACEHOLDER_PATTERNS):
+            fail(f"Platzhalter in {path.relative_to(ROOT)}")
+        emails = re.findall(r"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", text, re.I)
+        if any(email.lower() != PUBLIC_EMAIL for email in emails):
+            fail(f"nicht freigegebene E-Mail-Adresse in {path.relative_to(ROOT)}")
 
 
 def check_robots() -> None:
@@ -149,6 +192,8 @@ def check_robots() -> None:
 
 
 check_html()
+check_legal_pages()
+check_privacy_technology()
 check_sitemap()
 check_robots()
 check_text()
